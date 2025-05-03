@@ -26,7 +26,7 @@ const ChatBox = () => {
   if (!mounted) return null;
 
   return (
-    <footer className="absolute bottom-0 left-0 w-full pl-5 pr-5">
+    <footer className="w-full pl-5 pr-5">
       <div className="max-w-[800px] m-auto flex flex-col items-center justify-around">
         <div className="w-full min-h-14 pl-4 pr-4 bg-neutral-50 dark:bg-neutral-700 border border-stone-300 dark:border-stone-500 rounded-4xl shadow-xs flex items-center justify-between">
           <div className="w-full flex items-center pt-2 pb-2">
