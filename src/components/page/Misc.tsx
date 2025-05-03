@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const PageMain = () => {
+const Misc = () => {
   const { systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -45,4 +45,4 @@ const PageMain = () => {
   );
 };
 
-export default PageMain;
+export default Misc;
