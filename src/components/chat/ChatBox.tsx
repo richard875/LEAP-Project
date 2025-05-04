@@ -49,17 +49,24 @@ const ChatBox = () => {
       type: ConversationType.Question,
     };
 
+    setMessage("");
     context?.setConversation((prev) => [...prev, question]);
 
-    await fetch(ApiRoute.Conversations, {
+    const response = await fetch(ApiRoute.Conversations, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: question.id,
-        date: question.date,
-        text: question.content,
+        ...question,
+        questionId: uuidv4(),
       }),
     });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const responseData: ConversationItem = await response.json();
+    context?.setConversation((prev) => [...prev, responseData]);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
