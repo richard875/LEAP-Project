@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnswerPill should match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="w-fit mb-5 h-fit pl-2.5 pr-2.5 pt-2 pb-2 rounded-full border border-stone-300 dark:border-stone-500 flex items-center justify-center gap-2.5 select-none"
+  >
+    <img
+      alt="LawConnect Logo"
+      class="select-none"
+      data-nimg="1"
+      decoding="async"
+      height="20"
+      src="/_next/image?url=%2Flogo-small-dark.png&w=48&q=75"
+      srcset="/_next/image?url=%2Flogo-small-dark.png&w=32&q=75 1x, /_next/image?url=%2Flogo-small-dark.png&w=48&q=75 2x"
+      style="color: transparent;"
+      width="20"
+    />
+    <p
+      class="text-sm font-medium"
+    >
+      LawConnect
+    </p>
+  </div>
+</DocumentFragment>
+`;
