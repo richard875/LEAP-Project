@@ -39,6 +39,12 @@ const ChatBox = () => {
     setDisabled(message.trim() === "");
   }, [message]);
 
+  useEffect(() => {
+    if (context?.conversation.length === 0) {
+      setQuestionId(uuidv4());
+    }
+  }, [context?.conversation]);
+
   if (!mounted) return null;
 
   const handleSubmit = async () => {
