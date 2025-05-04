@@ -4,6 +4,14 @@ A full-stack web application built with **Next.js 15**, **React 19**, **Tailwind
 
 ---
 
+### You can view the live demo of the project here: [https://leap.richard-lee.com](https://leap.richard-lee.com).
+
+👉 [Watch the demo video](https://github.com/richard875/LEAP-Project/raw/main/doc/leap-demo.mp4)
+
+<img src="https://raw.githubusercontent.com/richard875/LEAP-Project/refs/heads/main/doc/leap-cover.jpg" alt="Cover" width="1800"/>
+
+---
+
 ## 🧠 Objective
 
 Build a modern full-stack app that allows users to:
