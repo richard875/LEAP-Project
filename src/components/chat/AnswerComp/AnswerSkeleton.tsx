@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext, useRef, useEffect } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
