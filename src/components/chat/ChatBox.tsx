@@ -4,8 +4,7 @@ import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useContext } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 
@@ -58,7 +57,7 @@ const ChatBox = () => {
 
     const newQuestionId = questionId || uuidv4();
     if (!questionId) setQuestionId(newQuestionId);
-    const response = await fetch(ApiRoute.Conversations, {
+    const response = await fetch(ApiRoute.New, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...question, questionId: newQuestionId }),
