@@ -18,7 +18,7 @@ const Answer = ({
 }) => {
   return (
     answer.type === ConversationType.Answer && (
-      <div className={`mt-5 ${isLast ? "mb-5" : ""}`}>
+      <div className={`mt-5 ${isLast ? "mb-8" : ""}`}>
         <AnswerPill />
         <article className="react-markdown markdown-body !bg-transparent">
           <Markdown

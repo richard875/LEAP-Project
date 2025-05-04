@@ -35,7 +35,7 @@ const Question = ({
 
   return (
     question.type === ConversationType.Question && (
-      <div className={`w-full flex justify-end ${isFirst ? "mt-20" : "mt-8"}`}>
+      <div className={`w-full flex justify-end ${isFirst ? "mt-20" : "mt-12"}`}>
         <div
           className={`max-w-[450px] flex flex-col items-end ${
             editing ? "w-full" : ""
