@@ -12,11 +12,11 @@ const Conversation = () => {
   const context = useContext(ConversationContext);
 
   return (
-    <main className="w-full flex-1 overflow-auto">
+    <main className="w-full flex-1 overflow-auto pl-5 pr-5">
       <div className="max-w-[800px] m-auto">
-        {context?.conversation.map((item) =>
+        {context?.conversation.map((item, index) =>
           item.type === ConversationType.Question ? (
-            <Question key={item.id} question={item} />
+            <Question key={item.id} question={item} isFirst={index === 0} />
           ) : (
             <Answer key={item.id} answer={item} />
           )
