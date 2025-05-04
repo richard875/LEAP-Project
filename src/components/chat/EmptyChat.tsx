@@ -15,7 +15,7 @@ const EmptyChat = ({ isEmpty }: { isEmpty: boolean }) => {
 
   return (
     isEmpty && (
-      <div className="w-full h-full flex items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400">
+      <div className="w-full h-full flex items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400 select-none">
         <p className="text-2xl font-bold">Start a conversation below</p>
         <FontAwesomeIcon className="text-xl" icon={faWandMagicSparkles} />
       </div>
