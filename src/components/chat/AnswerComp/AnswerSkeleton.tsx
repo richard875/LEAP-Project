@@ -14,7 +14,7 @@ const AnswerSkeleton = () => {
       bottomRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",
-        inline: "end",
+        inline: "nearest",
       });
     }
   }, [context?.loading]);
