@@ -7,9 +7,9 @@ import ConversationType from "@/enums/conversationType";
 import db from "@/lib/db";
 import getOpenAIClient from "@/lib/openai/openaiClient";
 import SYSTEM_PROMPT from "@/lib/openai/openaiSystemPrompt";
-import { posts, conversations } from "@/lib/schema";
 import ConversationItem from "@/types/conversationItem";
 
+import { posts, conversations } from "@/lib/schema";
 
 export async function POST(req: Request) {
   const { id, date, content, type, questionId } = await req.json();
