@@ -12,7 +12,7 @@ import ConversationItem from "@/types/conversationItem";
 import "github-markdown-css";
 import "highlight.js/styles/github-dark-dimmed.css";
 
-const Answer = (answer: ConversationItem) => {
+const Answer = ({ answer }: { answer: ConversationItem }) => {
   const { systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 

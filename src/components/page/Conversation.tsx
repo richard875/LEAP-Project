@@ -16,9 +16,9 @@ const Conversation = () => {
       <div className="max-w-[800px] m-auto">
         {context?.conversation.map((item) =>
           item.type === ConversationType.Question ? (
-            <Question key={item.id} {...item} />
+            <Question key={item.id} question={item} />
           ) : (
-            <Answer key={item.id} {...item} />
+            <Answer key={item.id} answer={item} />
           )
         )}
       </div>

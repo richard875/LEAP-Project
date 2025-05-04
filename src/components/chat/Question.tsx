@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ConversationType from "@/enums/conversationType";
 import ConversationItem from "@/types/conversationItem";
 
-const Question = (question: ConversationItem) => {
+const Question = ({ question }: { question: ConversationItem }) => {
   return (
     question.type === ConversationType.Question && (
       <div className="w-full flex justify-end mt-20">
