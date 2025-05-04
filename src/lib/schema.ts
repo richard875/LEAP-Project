@@ -14,7 +14,7 @@ export const conversations = pgTable("conversations", {
     .notNull()
     .references(() => posts.id, { onDelete: "cascade" }),
   type: text("type").notNull(),
-  text: text("text").notNull(),
+  content: text("content").notNull(),
   date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
 });
 
