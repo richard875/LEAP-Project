@@ -10,7 +10,7 @@ import ConversationType from "@/enums/conversationType";
 
 import Answer from "../chat/AnswerComp/Answer";
 import AnswerSkeleton from "../chat/AnswerComp/AnswerSkeleton";
-import Question from "../chat/Question";
+import Question from "../chat/QuestionComp/Question";
 
 const fadeVariant = {
   hidden: { opacity: 0, y: 10 },
