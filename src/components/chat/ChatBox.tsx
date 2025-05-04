@@ -4,13 +4,21 @@ import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useContext } from "react";
 import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
+import ConversationContext from "@/context/conversationContext";
+import ApiRoute from "@/enums/apiRoute";
+import ConversationType from "@/enums/conversationType";
+import ConversationItem from "@/types/conversationItem";
 
 const ChatBox = () => {
   const { systemTheme } = useTheme();
   const [message, setMessage] = useState("");
   const [mounted, setMounted] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const context = useContext(ConversationContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -30,6 +38,36 @@ const ChatBox = () => {
   }, [message]);
 
   if (!mounted) return null;
+
+  const handleSubmit = async () => {
+    if (disabled) return; // Prevent submission if disabled
+
+    const question: ConversationItem = {
+      id: uuidv4(),
+      date: new Date(),
+      content: message,
+      type: ConversationType.Question,
+    };
+
+    context?.setConversation((prev) => [...prev, question]);
+
+    await fetch(ApiRoute.Conversations, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: question.id,
+        date: question.date,
+        text: question.content,
+      }),
+    });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (!disabled) handleSubmit();
+    }
+  };
 
   return (
     <footer className="w-full pl-5 pr-5">
@@ -59,6 +97,7 @@ const ChatBox = () => {
               ref={textareaRef}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Ask a question..."
               rows={1}
               className="w-full resize-none focus:outline-none pl-3 pr-3"
@@ -66,6 +105,7 @@ const ChatBox = () => {
           </div>
           <FontAwesomeIcon
             icon={faCircleArrowRight}
+            onClick={handleSubmit}
             className={`text-2xl text-primary dark:text-white transition ${
               disabled ? "brightness-65" : "hover:brightness-80 cursor-pointer"
             }`}

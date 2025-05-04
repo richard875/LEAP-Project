@@ -6,17 +6,31 @@ import db from "@/lib/db";
 import { posts, conversations } from "@/lib/schema";
 
 export async function POST(req: Request) {
-  const { text } = await req.json();
-  if (!text) return NextResponse.json({ error: "Empty Text" }, { status: 400 });
+  const { id, date, text } = await req.json();
+  if (!id || !date || !text) {
+    return NextResponse.json({ error: "Empty Text" }, { status: 400 });
+  }
 
-  const post = await db.insert(posts).values({}).returning();
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate.getTime())) {
+    return NextResponse.json({ error: "Invalid Date" }, { status: 400 });
+  }
+
+  await db
+    .insert(posts)
+    .values({
+      id,
+      date: parsedDate,
+    })
+    .returning();
 
   await db
     .insert(conversations)
     .values({
-      questionId: post[0].id,
+      questionId: id,
       type: ConversationType.Question,
       text,
+      date: parsedDate,
     })
     .returning();
 
