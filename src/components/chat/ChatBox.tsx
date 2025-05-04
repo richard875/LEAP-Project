@@ -41,6 +41,8 @@ const ChatBox = () => {
 
   const handleSubmit = async () => {
     if (disabled) return; // Prevent submission if disabled
+    setDisabled(true);
+    context?.setLoading(true);
 
     const question: ConversationItem = {
       id: uuidv4(),
@@ -66,6 +68,8 @@ const ChatBox = () => {
     }
 
     const responseData: ConversationItem = await response.json();
+    setDisabled(false);
+    context?.setLoading(false);
     context?.setConversation((prev) => [...prev, responseData]);
   };
 

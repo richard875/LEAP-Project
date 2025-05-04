@@ -5,7 +5,8 @@ import { useContext } from "react";
 import ConversationContext from "@/context/conversationContext";
 import ConversationType from "@/enums/conversationType";
 
-import Answer from "../chat/Answer";
+import Answer from "../chat/AnswerComp/Answer";
+import AnswerSkeleton from "../chat/AnswerComp/AnswerSkeleton";
 import Question from "../chat/Question";
 
 const Conversation = () => {
@@ -25,6 +26,7 @@ const Conversation = () => {
             />
           )
         )}
+        {context?.loading && <AnswerSkeleton />}
       </div>
     </main>
   );
