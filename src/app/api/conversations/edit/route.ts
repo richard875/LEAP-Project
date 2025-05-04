@@ -9,11 +9,11 @@ import getOpenAIClient from "@/lib/openai/openaiClient";
 import SYSTEM_PROMPT from "@/lib/openai/openaiSystemPrompt";
 import ConversationItem from "@/types/conversationItem";
 
-import { posts, conversations } from "@/lib/schema";
+import { conversations } from "@/lib/schema";
 
 export async function POST(req: Request) {
-  const { id, date, content, type, questionId } = await req.json();
-  if (!id || !date || !content || !type || !questionId) {
+  const { id, date, content, type } = await req.json();
+  if (!id || !date || !content || !type) {
     return NextResponse.json({ error: "Empty Text" }, { status: 400 });
   }
 
@@ -23,25 +23,55 @@ export async function POST(req: Request) {
   }
 
   // Start reading and inserting the question into the database
+  const [currentConversation] = await db
+    .select()
+    .from(conversations)
+    .where(eq(conversations.id, id))
+    .limit(1)
+    .execute();
+
+  const currentQuestionId = currentConversation.questionId;
   const existingPosts = await db
     .select()
     .from(conversations)
-    .where(eq(conversations.questionId, questionId))
+    .where(eq(conversations.questionId, currentQuestionId))
     .orderBy(conversations.date)
     .execute();
 
-  if (existingPosts.length === 0) {
-    await db.insert(posts).values({ id: questionId, date: parsedDate });
+  // delete everything after currentConversation.id from the existingPosts in database
+  const index = existingPosts.findIndex(
+    (item) => item.id === currentConversation.id
+  );
+
+  if (index === -1) {
+    return NextResponse.json(
+      { error: "Conversation not found" },
+      { status: 404 }
+    );
   }
 
-  await db
-    .insert(conversations)
-    .values({ id, questionId, type, content, date: parsedDate });
+  const toKeep = existingPosts.slice(0, index);
+  const toDelete = existingPosts.slice(index + 1);
 
+  for (const conversation of toDelete) {
+    await db
+      .delete(conversations)
+      .where(eq(conversations.id, conversation.id))
+      .execute();
+  }
+
+  // Update the current conversation
+  await db
+    .update(conversations)
+    .set({ content, date: new Date() })
+    .where(eq(conversations.id, id))
+    .execute();
+
+  // Query OpenAI API
   const messages: ChatCompletionMessageParam[] = [];
   messages.push({ role: "developer", content: SYSTEM_PROMPT });
 
-  for (const post of existingPosts) {
+  for (const post of toKeep) {
     messages.push({
       role: post.type === ConversationType.Question ? "user" : "assistant",
       content: post.content,
@@ -65,7 +95,7 @@ export async function POST(req: Request) {
 
   await db.insert(conversations).values({
     id: response.id,
-    questionId,
+    questionId: currentQuestionId,
     type: response.type,
     content: response.content,
     date: response.date,
