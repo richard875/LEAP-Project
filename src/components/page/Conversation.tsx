@@ -18,7 +18,11 @@ const Conversation = () => {
           item.type === ConversationType.Question ? (
             <Question key={item.id} question={item} isFirst={index === 0} />
           ) : (
-            <Answer key={item.id} answer={item} />
+            <Answer
+              key={item.id}
+              answer={item}
+              isLast={index === context.conversation.length - 1}
+            />
           )
         )}
       </div>

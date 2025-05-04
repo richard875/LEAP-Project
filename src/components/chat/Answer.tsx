@@ -12,7 +12,13 @@ import ConversationItem from "@/types/conversationItem";
 import "github-markdown-css";
 import "highlight.js/styles/github-dark-dimmed.css";
 
-const Answer = ({ answer }: { answer: ConversationItem }) => {
+const Answer = ({
+  answer,
+  isLast,
+}: {
+  answer: ConversationItem;
+  isLast: boolean;
+}) => {
   const { systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -24,7 +30,7 @@ const Answer = ({ answer }: { answer: ConversationItem }) => {
 
   return (
     answer.type === ConversationType.Answer && (
-      <div className="mt-5">
+      <div className={`mt-5 ${isLast ? "mb-5" : ""}`}>
         <div className="w-fit h-fit pl-2.5 pr-2.5 pt-2 pb-2 rounded-full border border-stone-300 dark:border-stone-500 flex items-center justify-center gap-2.5 select-none">
           {systemTheme === "light" ? (
             <Image
