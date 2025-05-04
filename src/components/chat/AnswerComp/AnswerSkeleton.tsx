@@ -4,7 +4,7 @@ import AnswerPill from "./AnswerPill";
 
 const AnswerSkeleton = () => {
   return (
-    <div className="mt-5">
+    <div className="mt-5 mb-5">
       <AnswerPill />
       <div className="space-y-2">
         <Skeleton className="h-4 max-w-[300px]" />

@@ -111,7 +111,7 @@ const ChatBox = () => {
               onKeyDown={handleKeyDown}
               placeholder="Ask a question..."
               rows={1}
-              className="w-full resize-none focus:outline-none pl-3 pr-3"
+              className="w-full max-h-[250px] resize-none focus:outline-none pl-3 pr-3"
             />
           </div>
           <FontAwesomeIcon
