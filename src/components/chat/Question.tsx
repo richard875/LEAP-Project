@@ -3,15 +3,14 @@ import { faCheck, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useRef, useEffect } from "react";
 
-import ConversationType from "@/enums/conversationType";
-import ConversationItem from "@/types/conversationItem";
-
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ConversationType from "@/enums/conversationType";
+import ConversationItem from "@/types/conversationItem";
 
 const Question = ({
   question,
