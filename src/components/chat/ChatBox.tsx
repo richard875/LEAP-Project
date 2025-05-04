@@ -8,8 +8,9 @@ import { useEffect, useRef, useState } from "react";
 
 const ChatBox = () => {
   const { systemTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [message, setMessage] = useState("");
+  const [mounted, setMounted] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -17,10 +18,15 @@ const ChatBox = () => {
   }, []);
 
   useEffect(() => {
+    if (mounted && textareaRef.current) textareaRef.current.focus();
+  }, [mounted]);
+
+  useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
+    setDisabled(message.trim() === "");
   }, [message]);
 
   if (!mounted) return null;
@@ -60,7 +66,9 @@ const ChatBox = () => {
           </div>
           <FontAwesomeIcon
             icon={faCircleArrowRight}
-            className="text-2xl text-primary dark:text-white cursor-pointer hover:brightness-80 transition"
+            className={`text-2xl text-primary dark:text-white transition ${
+              disabled ? "brightness-65" : "hover:brightness-80 cursor-pointer"
+            }`}
           />
         </div>
         <p className="select-none text-center text-xs text-neutral-700 dark:text-neutral-300 pt-2 pb-2 pl-10 pr-10">
