@@ -1,13 +1,17 @@
-import {
-  faCheck,
-  faRotate,
-  faPenToSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faCheck, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useRef, useEffect } from "react";
 
 import ConversationType from "@/enums/conversationType";
 import ConversationItem from "@/types/conversationItem";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Question = ({
   question,
@@ -54,21 +58,40 @@ const Question = ({
             </p>
           )}
           <div className="mt-1 flex gap-1">
-            <div className="w-7.5 h-7.5 rounded-lg flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer">
-              <FontAwesomeIcon
-                icon={faRotate}
-                className="brightness-95 text-sm"
-              />
-            </div>
-            <div
-              onClick={() => setEditing(!editing)}
-              className="w-7.5 h-7.5 rounded-lg flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer"
-            >
-              <FontAwesomeIcon
-                icon={editing ? faCheck : faPenToSquare}
-                className="brightness-95 text-sm"
-              />
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div
+                    onClick={() => setEditing(!editing)}
+                    className="w-7.5 h-7.5 rounded-lg flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer"
+                  >
+                    <FontAwesomeIcon
+                      icon={editing ? faCheck : faPenToSquare}
+                      className="brightness-95 text-sm"
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="bg-foreground text-background">
+                  <p>{editing ? "Done" : "Edit"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="w-7.5 h-7.5 rounded-lg flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer">
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      className="brightness-95 text-sm"
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="bg-foreground text-background">
+                  <p>Delete</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
