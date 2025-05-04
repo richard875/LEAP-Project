@@ -7,9 +7,9 @@ import ConversationType from "@/enums/conversationType";
 import db from "@/lib/db";
 import getOpenAIClient from "@/lib/openai/openaiClient";
 import SYSTEM_PROMPT from "@/lib/openai/openaiSystemPrompt";
+import { conversations } from "@/lib/schema";
 import ConversationItem from "@/types/conversationItem";
 
-import { conversations } from "@/lib/schema";
 
 export async function PATCH(req: Request) {
   const { id, date, content, type } = await req.json();

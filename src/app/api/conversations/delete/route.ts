@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 import db from "@/lib/db";
-
 import { conversations } from "@/lib/schema";
 
 export async function DELETE(req: Request) {
