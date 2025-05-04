@@ -2,7 +2,6 @@ import ChatBox from "@/components/chat/ChatBox";
 import Conversation from "@/components/page/Conversation";
 import Misc from "@/components/page/Misc";
 import { ConversationProvider } from "@/context/conversationContext";
-import MockConversation from "@/mock/MockConversation";
 
 export default function Home() {
   return (
@@ -12,8 +11,6 @@ export default function Home() {
         <ChatBox />
         <Misc />
       </div>
-
-      <MockConversation />
     </ConversationProvider>
   );
 }
