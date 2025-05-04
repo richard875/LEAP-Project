@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatBox should match the snapshot 1`] = `
+<DocumentFragment>
+  <footer
+    class="w-full pl-5 pr-5"
+  >
+    <div
+      class="max-w-[800px] m-auto flex flex-col items-center justify-around"
+    >
+      <div
+        class="w-full min-h-14 pl-4 pr-4 bg-neutral-50 dark:bg-neutral-700 border border-stone-300 dark:border-stone-500 rounded-4xl shadow-xs flex items-center justify-between"
+      >
+        <div
+          class="w-full flex items-center pt-2 pb-2"
+        >
+          <img
+            alt="LawConnect Logo"
+            class="select-none"
+            data-nimg="1"
+            decoding="async"
+            height="24"
+            src="/_next/image?url=%2Flogo-small-dark.png&w=48&q=75"
+            srcset="/_next/image?url=%2Flogo-small-dark.png&w=32&q=75 1x, /_next/image?url=%2Flogo-small-dark.png&w=48&q=75 2x"
+            style="color: transparent;"
+            width="24"
+          />
+          <textarea
+            class="w-full max-h-[250px] resize-none focus:outline-none pl-3 pr-3"
+            placeholder="Ask a question..."
+            rows="1"
+          />
+        </div>
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-circle-arrow-right text-2xl text-primary dark:text-white transition brightness-65"
+          data-icon="circle-arrow-right"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM297 385c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l71-71L120 280c-13.3 0-24-10.7-24-24s10.7-24 24-24l214.1 0-71-71c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L409 239c9.4 9.4 9.4 24.6 0 33.9L297 385z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <p
+        class="select-none text-center text-xs text-neutral-700 dark:text-neutral-300 pt-2 pb-2 pl-10 pr-10"
+      >
+        Our service provides general legal information, not legal advice. Consult a lawyer for personalized assistance.
+      </p>
+    </div>
+  </footer>
+  <section
+    aria-atomic="false"
+    aria-label="Notifications alt+T"
+    aria-live="polite"
+    aria-relevant="additions text"
+    tabindex="-1"
+  />
+</DocumentFragment>
+`;
