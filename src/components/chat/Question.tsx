@@ -69,7 +69,7 @@ const Question = ({
         ...question,
         content: questionText,
       };
-      // delete everything after newQuestion.id from context?.conversation
+      // Delete everything after newQuestion.id from context?.conversation
       const idx = context?.conversation.findIndex(
         (item) => item.id === newQuestion.id
       );
@@ -83,7 +83,7 @@ const Question = ({
       context?.setConversation((prev) => [...prev.slice(0, idx), newQuestion]);
 
       const response = await fetch(ApiRoute.Edit, {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...newQuestion }),
       });
@@ -105,7 +105,39 @@ const Question = ({
     }
   };
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    // Check if the systen is currently loading
+    if (context?.loading) return;
+
+    // Delete everything after question.id inclusive from context?.conversation
+    const idx = context?.conversation.findIndex(
+      (item) => item.id === question.id
+    );
+
+    if (idx === undefined || idx === -1) {
+      toast("⚠️  Error: Conversation not found. Please try again");
+      return;
+    }
+
+    context?.setConversation((prev) => [...prev.slice(0, idx)]);
+
+    const response = await fetch(ApiRoute.Delete, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...question }),
+    });
+
+    if (!response.ok) {
+      toast(
+        `⚠️  Error: ${
+          response.statusText
+            ? response.statusText
+            : "Something went wrong. Please try again"
+        }`
+      );
+      return;
+    }
+  };
 
   return (
     question.type === ConversationType.Question && (
