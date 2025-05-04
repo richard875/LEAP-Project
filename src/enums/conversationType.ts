@@ -1,6 +1,6 @@
 enum ConversationType {
-  Question,
-  Answer,
+  Question = "question",
+  Answer = "answer",
 }
 
 export default ConversationType;
