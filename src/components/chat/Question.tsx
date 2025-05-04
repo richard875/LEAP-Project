@@ -1,7 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faRotate } from "@fortawesome/free-solid-svg-icons";
-import ConversationItem from "@/types/conversationItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import ConversationType from "@/enums/conversationType";
+import ConversationItem from "@/types/conversationItem";
 
 const Question = (question: ConversationItem) => {
   return (

@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import remarkGfm from "remark-gfm";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
-import ConversationItem from "@/types/conversationItem";
+import remarkGfm from "remark-gfm";
+
 import ConversationType from "@/enums/conversationType";
+import ConversationItem from "@/types/conversationItem";
 import "github-markdown-css";
 import "highlight.js/styles/github-dark-dimmed.css";
 

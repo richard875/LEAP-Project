@@ -1,8 +1,7 @@
-import Conversation from "@/components/page/Conversation";
 import ChatBox from "@/components/chat/ChatBox";
+import Conversation from "@/components/page/Conversation";
 import Misc from "@/components/page/Misc";
 import { ConversationProvider } from "@/context/conversationContext";
-
 import MockConversation from "@/mock/MockConversation";
 
 export default function Home() {

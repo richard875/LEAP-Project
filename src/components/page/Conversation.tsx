@@ -1,10 +1,12 @@
 "use client";
 
 import { useContext } from "react";
+
+import ConversationContext from "@/context/conversationContext";
+import ConversationType from "@/enums/conversationType";
+
 import Answer from "../chat/Answer";
 import Question from "../chat/Question";
-import ConversationType from "@/enums/conversationType";
-import ConversationContext from "@/context/conversationContext";
 
 const Conversation = () => {
   const context = useContext(ConversationContext);

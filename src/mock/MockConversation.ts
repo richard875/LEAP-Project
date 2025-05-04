@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useContext } from "react";
-import ConversationItem from "@/types/conversationItem";
-import ConversationType from "@/enums/conversationType";
+
 import ConversationContext from "@/context/conversationContext";
+import ConversationType from "@/enums/conversationType";
+import ConversationItem from "@/types/conversationItem";
 
 const mockQuestionText =
   "I am an accountant, and my client is asking for advice on strategies to optimise his tax structure. He and his partner have an income of $200,000 per year. They live in Sydney, Australia, and have no kids. Please provide a detailed list of strategies that could minimise their tax. Please be very specific and use concise language.";
