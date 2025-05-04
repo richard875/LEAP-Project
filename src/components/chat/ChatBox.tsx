@@ -18,6 +18,7 @@ const ChatBox = () => {
   const [message, setMessage] = useState("");
   const [mounted, setMounted] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [questionId, setQuestionId] = useState<string | null>(null);
   const context = useContext(ConversationContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -40,8 +41,7 @@ const ChatBox = () => {
   if (!mounted) return null;
 
   const handleSubmit = async () => {
-    if (disabled) return; // Prevent submission if disabled
-    setDisabled(true);
+    if (disabled || context?.loading) return; // Prevent submission if disabled
     context?.setLoading(true);
 
     const question: ConversationItem = {
@@ -54,13 +54,12 @@ const ChatBox = () => {
     setMessage("");
     context?.setConversation((prev) => [...prev, question]);
 
+    const newQuestionId = questionId || uuidv4();
+    if (!questionId) setQuestionId(newQuestionId);
     const response = await fetch(ApiRoute.Conversations, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...question,
-        questionId: uuidv4(),
-      }),
+      body: JSON.stringify({ ...question, questionId: newQuestionId }),
     });
 
     if (!response.ok) {
@@ -68,7 +67,6 @@ const ChatBox = () => {
     }
 
     const responseData: ConversationItem = await response.json();
-    setDisabled(false);
     context?.setLoading(false);
     context?.setConversation((prev) => [...prev, responseData]);
   };
@@ -76,7 +74,7 @@ const ChatBox = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (!disabled) handleSubmit();
+      if (!disabled && !context?.loading) handleSubmit();
     }
   };
 
@@ -118,7 +116,9 @@ const ChatBox = () => {
             icon={faCircleArrowRight}
             onClick={handleSubmit}
             className={`text-2xl text-primary dark:text-white transition ${
-              disabled ? "brightness-65" : "hover:brightness-80 cursor-pointer"
+              disabled || context?.loading
+                ? "brightness-65"
+                : "hover:brightness-80 cursor-pointer"
             }`}
           />
         </div>
