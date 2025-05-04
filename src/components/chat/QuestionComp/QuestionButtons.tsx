@@ -71,7 +71,7 @@ const QuestionButtons = ({
               <p>Delete</p>
             </TooltipContent>
 
-            <AlertDialogContent>
+            <AlertDialogContent className="rounded-2xl">
               <AlertDialogHeader className="select-none">
                 <AlertDialogTitle>
                   Are you sure you want to delete this question?
@@ -82,12 +82,12 @@ const QuestionButtons = ({
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="cursor-pointer select-none">
+                <AlertDialogCancel className="cursor-pointer select-none rounded-lg">
                   Cancel
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleDelete}
-                  className="bg-red-500 hover:bg-red-600 text-white cursor-pointer select-none"
+                  className="bg-red-500 hover:bg-red-600 text-white cursor-pointer select-none rounded-lg"
                 >
                   Delete
                 </AlertDialogAction>
