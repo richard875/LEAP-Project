@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Misc should match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="h-12 w-full fixed top-0 left-0 border-b bg-background block xl:hidden"
+  />
+  <img
+    alt="LawConnect Logo"
+    class="fixed top-3 left-0 select-none xl:top-6 xl:left-5 scale-75 xl:scale-100"
+    data-nimg="1"
+    decoding="async"
+    height="23.8"
+    src="/_next/image?url=%2Flogo-dark.webp&w=384&q=75"
+    srcset="/_next/image?url=%2Flogo-dark.webp&w=256&q=75 1x, /_next/image?url=%2Flogo-dark.webp&w=384&q=75 2x"
+    style="color: transparent;"
+    width="172.2"
+  />
+  <span
+    class="size-8 shrink-0 overflow-hidden rounded-full fixed top-5 right-5 select-none hidden xl:flex"
+    data-slot="avatar"
+  >
+    <span
+      class="bg-muted flex size-full items-center justify-center rounded-full"
+      data-slot="avatar-fallback"
+    >
+      RL
+    </span>
+  </span>
+</DocumentFragment>
+`;
