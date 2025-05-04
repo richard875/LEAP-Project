@@ -1,7 +1,14 @@
 {
   "name": "leap-richard",
+  "description": "Project For LEAP (LawConnect)",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Richard Lee",
+    "email": "hello@richard-lee.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/richard875/LEAP-Project",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -10,6 +17,10 @@
     "test:watch": "jest --watch",
     "lint": "next lint",
     "lint:fix": "eslint --fix ."
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
