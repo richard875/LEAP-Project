@@ -11,7 +11,7 @@ import ConversationItem from "@/types/conversationItem";
 
 import { conversations } from "@/lib/schema";
 
-export async function POST(req: Request) {
+export async function PATCH(req: Request) {
   const { id, date, content, type } = await req.json();
   if (!id || !date || !content || !type) {
     return NextResponse.json({ error: "Empty Text" }, { status: 400 });
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     .orderBy(conversations.date)
     .execute();
 
-  // delete everything after currentConversation.id from the existingPosts in database
+  // Delete everything after currentConversation.id from the existingPosts in database
   const index = existingPosts.findIndex(
     (item) => item.id === currentConversation.id
   );
