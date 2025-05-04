@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import ConversationType from "@/enums/conversationType";
 import db from "@/lib/db";
-import getOpenAIClient from "@/lib/openaiClient";
+import getOpenAIClient from "@/lib/openai/openaiClient";
 import ConversationItem from "@/types/conversationItem";
 
 import { posts, conversations } from "@/lib/schema";
