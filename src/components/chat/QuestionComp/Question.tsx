@@ -5,12 +5,15 @@ import { toast } from "sonner";
 
 import { Toaster } from "@/components/ui/sonner";
 import ConversationContext from "@/context/conversationContext";
-import ApiRoute from "@/enums/apiRoute";
 import ConversationType from "@/enums/conversationType";
+import deleteChat from "@/lib/functions/deleteChat";
 import editChat from "@/lib/functions/editChat";
 import ConversationItem from "@/types/conversationItem";
 
 import QuestionButtons from "./QuestionButtons";
+
+const ERR_MSG = "Something went wrong. Please try again";
+const NOT_FOUND = "⚠️  Error: Conversation not found. Please try again";
 
 const Question = ({
   question,
@@ -61,7 +64,7 @@ const Question = ({
 
       if (idx === undefined || idx === -1) {
         setEditing(false);
-        toast("⚠️  Error: Conversation not found. Please try again");
+        toast(NOT_FOUND);
         return;
       }
 
@@ -69,11 +72,7 @@ const Question = ({
 
       const res = await editChat(newQuestion);
       if ("status" in res && res.status !== 200) {
-        toast(
-          `⚠️  Error: ${
-            res.error ? res.error : "Something went wrong. Please try again"
-          }`
-        );
+        toast(`⚠️  Error: ${res.error ? res.error : ERR_MSG}`);
         return;
       }
 
@@ -92,26 +91,15 @@ const Question = ({
     );
 
     if (idx === undefined || idx === -1) {
-      toast("⚠️  Error: Conversation not found. Please try again");
+      toast(NOT_FOUND);
       return;
     }
 
     context?.setConversation((prev) => [...prev.slice(0, idx)]);
 
-    const response = await fetch(ApiRoute.Delete, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...question }),
-    });
-
-    if (!response.ok) {
-      toast(
-        `⚠️  Error: ${
-          response.statusText
-            ? response.statusText
-            : "Something went wrong. Please try again"
-        }`
-      );
+    const res = await deleteChat(question);
+    if ("status" in res && res.status !== 200) {
+      toast(`⚠️  Error: ${res.error ? res.error : ERR_MSG}`);
       return;
     }
   };

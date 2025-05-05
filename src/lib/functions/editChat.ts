@@ -25,25 +25,22 @@ async function editChat(question: ConversationItem) {
     const { id, content } = result.data;
 
     // Start reading and inserting the question into the database
-    const [currentConversation] = await db
+    const [currentConv] = await db
       .select()
       .from(conversations)
       .where(eq(conversations.id, id))
       .limit(1)
       .execute();
 
-    const currentQuestionId = currentConversation.questionId;
     const existingPosts = await db
       .select()
       .from(conversations)
-      .where(eq(conversations.questionId, currentQuestionId))
+      .where(eq(conversations.questionId, currentConv.questionId))
       .orderBy(conversations.date)
       .execute();
 
     // Delete everything after currentConversation.id from the existingPosts in database
-    const index = existingPosts.findIndex(
-      (item) => item.id === currentConversation.id
-    );
+    const index = existingPosts.findIndex((item) => item.id === currentConv.id);
     if (index === -1) return { status: 404, error: "Conversation not found" };
 
     const toKeep = existingPosts.slice(0, index);
@@ -85,13 +82,13 @@ async function editChat(question: ConversationItem) {
     const response: ConversationItem = {
       id: uuidv4(),
       date: new Date(),
-      content: completion.choices[0].message.content as string,
+      content: completion.choices?.[0]?.message?.content || "",
       type: ConversationType.Answer,
     };
 
     await db.insert(conversations).values({
       id: response.id,
-      questionId: currentQuestionId,
+      questionId: currentConv.questionId,
       type: response.type,
       content: response.content,
       date: response.date,

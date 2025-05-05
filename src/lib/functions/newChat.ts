@@ -16,11 +16,7 @@ import NewChatSchema from "../validators/newChatSchema";
 async function newChat(question: ConversationItem, questionId: string) {
   try {
     // Validate input
-    const result = NewChatSchema.safeParse({
-      ...question,
-      questionId,
-    });
-
+    const result = NewChatSchema.safeParse({ ...question, questionId });
     if (!result.success) {
       const messages = result.error.flatten().fieldErrors;
       return { status: 400, error: "Validation failed", messages };
