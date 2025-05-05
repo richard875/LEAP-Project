@@ -6,6 +6,14 @@ import ConversationItem from "@/types/conversationItem";
 
 import Question from "./Question";
 
+jest.mock("@/lib/functions/deleteChat", () => ({
+  default: jest.fn(() => Promise.resolve({ success: true })),
+}));
+
+jest.mock("@/lib/functions/editChat", () => ({
+  default: jest.fn(() => Promise.resolve({ success: true })),
+}));
+
 describe("Question", () => {
   const question: ConversationItem = {
     id: "2e43e472-8b02-45f3-866c-4943dee1ac97",

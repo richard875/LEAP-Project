@@ -4,6 +4,10 @@ import "@testing-library/jest-dom";
 
 import ChatBox from "./ChatBox";
 
+jest.mock("@/lib/functions/newChat", () => ({
+  default: jest.fn(() => Promise.resolve({ success: true })),
+}));
+
 describe("ChatBox", () => {
   it("should render correctly", () => {
     const { container } = render(<ChatBox />);
