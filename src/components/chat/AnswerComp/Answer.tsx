@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -16,9 +17,17 @@ const Answer = ({
   answer: ConversationItem;
   isLast: boolean;
 }) => {
+  const answerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (answerRef.current) {
+      answerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
+
   return (
     answer.type === ConversationType.Answer && (
-      <div className={`mt-5 ${isLast ? "mb-3 xl:mb-8" : ""}`}>
+      <div ref={answerRef} className={`mt-5 ${isLast ? "mb-3 xl:mb-8" : ""}`}>
         <AnswerPill />
         <article className="react-markdown markdown-body !bg-transparent">
           <Markdown

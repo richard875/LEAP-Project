@@ -13,11 +13,7 @@ const AnswerSkeleton = () => {
 
   useEffect(() => {
     if (context?.loading && bottomRef.current) {
-      bottomRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
+      bottomRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [context?.loading]);
 
