@@ -8,50 +8,66 @@ import ConversationType from "@/enums/conversationType";
 import db from "@/lib/db";
 import getOpenAIClient from "@/lib/openai/openaiClient";
 import SYSTEM_PROMPT from "@/lib/openai/openaiSystemPrompt";
-import { posts, conversations } from "@/lib/schema";
+import { conversations } from "@/lib/schema";
 import ConversationItem from "@/types/conversationItem";
 
-import NewChatSchema from "../validators/newChatSchema";
+import ModifyChatSchema from "../validators/modifyChatSchema";
 
-async function newChat(question: ConversationItem, questionId: string) {
+async function editChat(question: ConversationItem) {
   try {
     // Validate input
-    const result = NewChatSchema.safeParse({
-      ...question,
-      questionId,
-    });
-
+    const result = ModifyChatSchema.safeParse(question);
     if (!result.success) {
       const messages = result.error.flatten().fieldErrors;
-      return { status: 400, error: "Validation failed", messages };
+      return { status: 400, error: "Validation failed", messages: messages };
     }
 
-    const { id, date, content, type, questionId: validQId } = result.data;
-    const parsedDate = new Date(date);
+    const { id, content } = result.data;
 
+    // Start reading and inserting the question into the database
+    const [currentConversation] = await db
+      .select()
+      .from(conversations)
+      .where(eq(conversations.id, id))
+      .limit(1)
+      .execute();
+
+    const currentQuestionId = currentConversation.questionId;
     const existingPosts = await db
       .select()
       .from(conversations)
-      .where(eq(conversations.questionId, validQId))
+      .where(eq(conversations.questionId, currentQuestionId))
       .orderBy(conversations.date)
       .execute();
 
-    if (existingPosts.length === 0) {
-      await db.insert(posts).values({ id: validQId, date: parsedDate });
+    // Delete everything after currentConversation.id from the existingPosts in database
+    const index = existingPosts.findIndex(
+      (item) => item.id === currentConversation.id
+    );
+    if (index === -1) return { status: 404, error: "Conversation not found" };
+
+    const toKeep = existingPosts.slice(0, index);
+    const toDelete = existingPosts.slice(index + 1);
+
+    for (const conv of toDelete) {
+      await db
+        .delete(conversations)
+        .where(eq(conversations.id, conv.id))
+        .execute();
     }
 
-    await db.insert(conversations).values({
-      id,
-      questionId: validQId,
-      type,
-      content,
-      date: parsedDate,
-    });
+    // Update the current conversation
+    await db
+      .update(conversations)
+      .set({ content, date: new Date() })
+      .where(eq(conversations.id, id))
+      .execute();
 
+    // Query OpenAI API
     const messages: ChatCompletionMessageParam[] = [];
     messages.push({ role: "developer", content: SYSTEM_PROMPT });
 
-    for (const post of existingPosts) {
+    for (const post of toKeep) {
       messages.push({
         role: post.type === ConversationType.Question ? "user" : "assistant",
         content: post.content,
@@ -69,13 +85,13 @@ async function newChat(question: ConversationItem, questionId: string) {
     const response: ConversationItem = {
       id: uuidv4(),
       date: new Date(),
-      content: completion.choices?.[0]?.message?.content || "",
+      content: completion.choices[0].message.content as string,
       type: ConversationType.Answer,
     };
 
     await db.insert(conversations).values({
       id: response.id,
-      questionId: validQId,
+      questionId: currentQuestionId,
       type: response.type,
       content: response.content,
       date: response.date,
@@ -87,4 +103,4 @@ async function newChat(question: ConversationItem, questionId: string) {
   }
 }
 
-export default newChat;
+export default editChat;

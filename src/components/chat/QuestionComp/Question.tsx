@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import ConversationContext from "@/context/conversationContext";
 import ApiRoute from "@/enums/apiRoute";
 import ConversationType from "@/enums/conversationType";
+import editChat from "@/lib/functions/editChat";
 import ConversationItem from "@/types/conversationItem";
 
 import QuestionButtons from "./QuestionButtons";
@@ -66,26 +67,18 @@ const Question = ({
 
       context?.setConversation((prev) => [...prev.slice(0, idx), newQuestion]);
 
-      const response = await fetch(ApiRoute.Edit, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...newQuestion }),
-      });
-
-      if (!response.ok) {
+      const res = await editChat(newQuestion);
+      if ("status" in res && res.status !== 200) {
         toast(
           `⚠️  Error: ${
-            response.statusText
-              ? response.statusText
-              : "Something went wrong. Please try again"
+            res.error ? res.error : "Something went wrong. Please try again"
           }`
         );
         return;
       }
 
-      const responseData: ConversationItem = await response.json();
       context?.setLoading(false);
-      context?.setConversation((prev) => [...prev, responseData]);
+      context?.setConversation((prev) => [...prev, res as ConversationItem]);
     }
   };
 
