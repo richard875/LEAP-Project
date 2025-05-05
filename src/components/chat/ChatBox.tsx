@@ -10,8 +10,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Toaster } from "@/components/ui/sonner";
 import ConversationContext from "@/context/conversationContext";
-import ApiRoute from "@/enums/apiRoute";
 import ConversationType from "@/enums/conversationType";
+import newChat from "@/lib/functions/newChat";
 import ConversationItem from "@/types/conversationItem";
 
 const ChatBox = () => {
@@ -63,26 +63,21 @@ const ChatBox = () => {
 
     const newQuestionId = questionId || uuidv4();
     if (!questionId) setQuestionId(newQuestionId);
-    const response = await fetch(ApiRoute.New, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...question, questionId: newQuestionId }),
-    });
 
-    if (!response.ok) {
+    const response = await newChat(question, newQuestionId);
+    if ("status" in response && response.status !== 200) {
       toast(
         `⚠️  Error: ${
-          response.statusText
-            ? response.statusText
+          response.error
+            ? response.error
             : "Something went wrong. Please try again"
         }`
       );
       return;
     }
 
-    const responseData: ConversationItem = await response.json();
     context?.setLoading(false);
-    context?.setConversation((prev) => [...prev, responseData]);
+    context?.setConversation((prev) => [...prev, response as ConversationItem]);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
